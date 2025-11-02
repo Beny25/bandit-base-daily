@@ -1,29 +1,24 @@
-import "@nomicfoundation/hardhat-toolbox";
 import hre from "hardhat";
 
 async function main() {
-  console.log("Deploying BanditBase contract...");
-
-  // pastikan hre.ethers aktif
-  if (!hre.ethers) {
-    throw new Error("hre.ethers not found — check hardhat-toolbox import in config!");
-  }
+  console.log("Deploying BanditBase contract..."); 
 
   const BanditBase = await hre.ethers.getContractFactory("BanditBase");
-  console.log("Contract factory loaded...");
+  console.log("Contract factory loaded..."); 
 
   const contract = await BanditBase.deploy(
     "First onchain message: Hello, Base!",
     "Twitter: @alidepok1"
   );
 
-  console.log("Transaction broadcasted... waiting for deployment confirmation...");
+  console.log("Transaction sent, waiting for confirmation..."); 
   await contract.waitForDeployment();
 
-  console.log(`BanditBase deployed to: ${contract.target}`);
+  const address = await contract.getAddress();
+  console.log(`BanditBase deployed successfully at: ${address}`); 
 }
 
 main().catch((err) => {
-  console.error("Deployment failed:", err);
+  console.error("Deployment failed:", err); 
   process.exitCode = 1;
 });
